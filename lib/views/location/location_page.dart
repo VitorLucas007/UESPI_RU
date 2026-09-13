@@ -213,7 +213,17 @@ class _LocationPageState extends State<LocationPage> {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton.icon(
-                      onPressed: () => _viewModel.abrirNoGoogleMaps(),
+                      onPressed: () async {
+                        final sucesso = await _viewModel.abrirNoGoogleMaps();
+                        if (!sucesso && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Não foi possível abrir o Google Maps.'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF003366),
                         foregroundColor: Colors.white,

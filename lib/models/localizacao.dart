@@ -1,4 +1,4 @@
-﻿class LocalizacaoRu {
+class LocalizacaoRu {
   final double latitude;
   final double longitude;
   final String campus;
@@ -16,5 +16,5 @@
   });
 
   String get googleMapsUrl =>
-      'https://www.google.com/maps/search/?api=1&query=,';
+      'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
 }
