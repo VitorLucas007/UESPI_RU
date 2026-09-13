@@ -84,7 +84,8 @@ class _HomePageState extends State<HomePage> {
             // Header Card
             HeaderCard(
               campus: infoGeral['campus'] ?? 'Campus Torquato Neto',
-              statusRu: infoGeral['statusRu'] ?? 'RU ABERTO',
+              statusRu: _viewModel.statusRu, 
+              statusRuTexto: _viewModel.statusRuTexto,
               tarifa: infoGeral['tarifa'] ?? 'R\$ 1,00',
               tarifaRotulo: infoGeral['tarifaRotulo'] ?? 'Tarifa Estudante',
               horario: refeicaoAtual?.horario ?? diaAtual.almoco.horario,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../../viewmodels/home_viewmodel.dart';
 
 class HeaderCard extends StatelessWidget {
   final String campus;
-  final String statusRu;
+  final StatusRu statusRu;
+  final String statusRuTexto;
   final String tarifa;
   final String tarifaRotulo;
   final String horario;
@@ -12,14 +14,37 @@ class HeaderCard extends StatelessWidget {
     super.key,
     required this.campus,
     required this.statusRu,
+    required this.statusRuTexto,
     required this.tarifa,
     required this.tarifaRotulo,
     required this.horario,
     required this.onLocationTap,
   });
 
+  /// Cor principal do badge de acordo com o status.
+  Color _corStatus() {
+    switch (statusRu) {
+      case StatusRu.aberto:
+        return const Color(0xFF2E7D32); // verde
+      case StatusRu.abreEmBreve:
+        return const Color(0xFFF57F17); // âmbar
+      case StatusRu.fechado:
+        return const Color(0xFFC62828); // vermelho
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final valorLimpo = tarifa.trim();
+    final valorFormatado =
+        valorLimpo.startsWith(r'R$') ? valorLimpo : 'R\$ $valorLimpo';
+    final rotuloLimpo = tarifaRotulo.trim();
+    final textoTarifa = rotuloLimpo.isNotEmpty
+        ? '$valorFormatado - $rotuloLimpo'
+        : valorFormatado;
+
+    final corBadge = _corStatus();
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -69,13 +94,13 @@ class HeaderCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              // Badge RU ABERTO
+              // Badge status dinâmico
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF2E7D32).withValues(alpha: 0.12),
+                  color: corBadge.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFF2E7D32).withValues(alpha: 0.3)),
+                  border: Border.all(color: corBadge.withValues(alpha: 0.3)),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -83,16 +108,16 @@ class HeaderCard extends StatelessWidget {
                     Container(
                       width: 8,
                       height: 8,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF2E7D32),
+                      decoration: BoxDecoration(
+                        color: corBadge,
                         shape: BoxShape.circle,
                       ),
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      statusRu,
-                      style: const TextStyle(
-                        color: Color(0xFF2E7D32),
+                      statusRuTexto,
+                      style: TextStyle(
+                        color: corBadge,
                         fontWeight: FontWeight.w700,
                         fontSize: 12,
                       ),
@@ -107,38 +132,48 @@ class HeaderCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Tarifa
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFF8E1),
-                      borderRadius: BorderRadius.circular(8),
+              Expanded(
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFF8E1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.attach_money, color: Color(0xFFF57F17), size: 20),
                     ),
-                    child: const Icon(Icons.attach_money, color: Color(0xFFF57F17), size: 20),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        ' - ',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          color: Color(0xFF212121),
-                        ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            textoTarifa,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Color(0xFF212121),
+                            ),
+                          ),
+                          const Text(
+                            'Pagamento via PIX/Ticket',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: 11, color: Colors.grey),
+                          ),
+                        ],
                       ),
-                      const Text(
-                        'Pagamento via PIX/Ticket',
-                        style: TextStyle(fontSize: 11, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
+              const SizedBox(width: 12),
               // Horário
               Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
                     padding: const EdgeInsets.all(8),
