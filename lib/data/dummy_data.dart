@@ -1,4 +1,4 @@
-﻿import '../models/cardapio.dart';
+import '../models/cardapio.dart';
 import '../models/notificacao.dart';
 import '../models/localizacao.dart';
 
@@ -208,10 +208,10 @@ const dummyCardapioSemanal = [
 ];
 
 const dummyLocalizacao = LocalizacaoRu(
-  latitude: -5.0543,
-  longitude: -42.7963,
-  campus: 'CAMPUS TORQUATO NETO',
+  latitude: -5.077307,
+  longitude: -42.826894,
+  campus: 'CAMPUS POETA TORQUATO NETO',
   nome: 'RESTAURANTE UNIVERSITÁRIO - RU',
-  pontoReferencia: 'Próximo à Biblioteca Central',
-  tempoCaminhada: '4 minutos a pé',
+  pontoReferencia: 'Rua João Cabral, 2231, Pirajá - Próximo à Biblioteca Central',
+  tempoCaminhada: '4 minutos a pé no campus',
 );
