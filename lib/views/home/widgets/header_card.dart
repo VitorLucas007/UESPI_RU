@@ -94,6 +94,7 @@ class HeaderCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
+              // Badge RU ABERTO
               // Badge status dinâmico
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),

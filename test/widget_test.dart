@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ru_uespi/main.dart';
 
@@ -26,5 +27,26 @@ void main() {
       isTrue,
       reason: 'Deve exibir um dos status do RU: ABERTO, FECHADO ou ABRE EM BREVE',
     );
+  });
+
+  testWidgets('AppDrawer opens and displays all navigation items and footer', (WidgetTester tester) async {
+    await tester.pumpWidget(const RuUespiApp());
+    await tester.pumpAndSettle(const Duration(milliseconds: 3000));
+
+    // Clica no botão de menu da AppBar para abrir o drawer
+    await tester.tap(find.byIcon(Icons.menu));
+    await tester.pumpAndSettle();
+
+    // Valida o cabeçalho e marca
+    expect(find.text('RU UESPI'), findsWidgets);
+
+    // Valida os itens de navegação principal
+    expect(find.text('Cardápio Completo'), findsOneWidget);
+    expect(find.text('Localização'), findsOneWidget);
+    expect(find.text('Informações sobre o RU'), findsOneWidget);
+    expect(find.text('Configurações'), findsOneWidget);
+
+    // Valida o footer
+    expect(find.text('Sair do App'), findsOneWidget);
   });
 }

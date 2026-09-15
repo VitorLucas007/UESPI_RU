@@ -5,6 +5,7 @@ import 'widgets/meal_selector.dart';
 import 'widgets/today_menu_section.dart';
 import 'widgets/upcoming_days_section.dart';
 import 'widgets/notice_banner.dart';
+import 'widgets/app_drawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -42,20 +43,16 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F9FC),
+      drawer: const AppDrawer(currentRoute: '/home'),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(Icons.menu, color: Color(0xFF003366)),
-          onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Menu lateral em desenvolvimento'),
-                duration: Duration(seconds: 1),
-              ),
-            );
-          },
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu, color: Color(0xFF003366)),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
         ),
         centerTitle: true,
         title: const Text(
@@ -84,7 +81,7 @@ class _HomePageState extends State<HomePage> {
             // Header Card
             HeaderCard(
               campus: infoGeral['campus'] ?? 'Campus Torquato Neto',
-              statusRu: _viewModel.statusRu, 
+              statusRu: _viewModel.statusRu,
               statusRuTexto: _viewModel.statusRuTexto,
               tarifa: infoGeral['tarifa'] ?? 'R\$ 1,00',
               tarifaRotulo: infoGeral['tarifaRotulo'] ?? 'Tarifa Estudante',
